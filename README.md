@@ -1,2 +1,2 @@
 # java_pausable_thread
-Experiment in designing a wrapper for a thread that provides pause and resume methods.
+Experiment, demo and reminder for me about how to pause and resume a perpetually running activity in another thread. Uses the recommended wait() / notifyAll() protocol in combination with a lock object.
