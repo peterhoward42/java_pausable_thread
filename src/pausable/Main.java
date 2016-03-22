@@ -1,22 +1,30 @@
 package pausable;
 
-import java.util.Timer;
-
+/**
+ * A program to show how the demonstration class PausableTickerTape,
+ * can be used to implement perpetual activity in a separate thread,
+ * which can be paused and resumed robustly by the original thread.
+ *
+ */
 public class Main {
 
 	public static void main(String[] args) {
-		PausableTickerTape ticker = new PausableTickerTape();
-		ticker.startTicking(); // async
+		final PausableTickerTape ticker = new PausableTickerTape();
+		new Thread(new Runnable() {
+			public void run() {
+				ticker.OutputTicksForever();
+			}
+		}).start();
 
-		// Pause and resume the ticker based on time 
+		// Pause and resume the ticker every <N> seconds
+		final long n = 5;
 		for (;;) {
-			long secondsInHour = (System.currentTimeMillis() / 1000) % 60;
-			int tenSecondSlot = (int) (secondsInHour % 6);
-			if (tenSecondSlot % 2 == 0)
-				ticker.pause();
+			long oddEvenToggle = (System.currentTimeMillis() / 1000L) / n;
+			
+			if (oddEvenToggle % 2 == 0)
+				ticker.Pause();
 			else
-				ticker.resume();
+				ticker.Resume();
 		}
 	}
-
 }
